@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import CounterWidget from '../components/dashboard/counter-widget'
+import UserList from '../components/user-list/user-list'
 
 export default function Home() {
 
@@ -20,6 +21,8 @@ export default function Home() {
         <CounterWidget vm={vm} color="orange" />
         <CounterWidget vm={vm} color="blue" />
        </dl>
+
+       <UserList></UserList>
     </>
   )
 }
