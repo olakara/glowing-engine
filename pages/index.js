@@ -16,8 +16,10 @@ export default function Home() {
         Hello world!
       </h1>
        <dl className="px-2 mt-5 grid grid-cols-2 gap-5 sm:grid-cols-6">
-        <CounterWidget vm={vm} />
-       </dl>      
+        <CounterWidget vm={vm} color="red" />
+        <CounterWidget vm={vm} color="orange" />
+        <CounterWidget vm={vm} color="blue" />
+       </dl>
     </>
   )
 }
