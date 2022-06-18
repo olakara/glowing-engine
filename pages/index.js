@@ -9,16 +9,15 @@ export default function Home() {
   };
 
  return (<>
-      <Head>
-        <title>Home Page</title>
+      <Head> 
+        <title >Home Page</title>
       </Head>
-      <h1 className="p-4 text-3xl font-bold underline">
+      <h1 data-testid="pageheader" className="p-4 text-3xl font-bold underline">
         Hello world!
       </h1>
-       <dl class="px-2 mt-5 grid grid-cols-2 gap-5 sm:grid-cols-6">
+       <dl className="px-2 mt-5 grid grid-cols-2 gap-5 sm:grid-cols-6">
         <CounterWidget vm={vm} />
-       </dl>
-      
+       </dl>      
     </>
   )
 }
