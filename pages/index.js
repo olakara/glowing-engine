@@ -1,28 +1,39 @@
+import {  useEffect } from 'react';
 import Head from 'next/head'
-import CounterWidget from '../components/dashboard/counter-widget'
-import UserList from '../components/user-list/user-list'
+import Link from 'next/link'
+import Router from "next/router"
 
-export default function Home() {
+export default function Home({data}) {
 
-  const vm = {
-    title: 'Counter',
-    countValue: '24,600',
-  };
+
+  useEffect(() =>{
+    const token = localStorage.getItem('token');
+    console.log('token', token)
+    if(token) {
+       Router.push("/home");
+    } else {
+      Router.push("/login");
+    }
+   
+  },[])
 
  return (<>
       <Head> 
-        <title >Home Page</title>
+        <title >Index Page</title>
       </Head>
-      <h1 data-testid="pageheader" className="p-4 text-3xl font-bold underline">
-        Hello world!
-      </h1>
-       <dl className="px-2 mt-5 grid grid-cols-2 gap-5 sm:grid-cols-6">
-        <CounterWidget vm={vm} color="red" />
-        <CounterWidget vm={vm} color="orange" />
-        <CounterWidget vm={vm} color="blue" />
-       </dl>
+    
+      <nav className="py-4 px-6 text-sm font-medium">
+        <ul className="flex space-x-3">
+          <li>
+            <Link href="/login" className="block px-3 py-2 rounded-md bg-sky-500 text-white">Login</Link>
+            <Link href="/logout" className="block px-3 py-2 rounded-md bg-sky-500 text-white">Logout</Link>
+          </li>
+        </ul>
+       </nav>
 
-       <UserList></UserList>
+    
     </>
   )
 }
+
+
