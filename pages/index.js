@@ -2,18 +2,20 @@ import {  useEffect } from 'react';
 import Head from 'next/head'
 import Link from 'next/link'
 import Router from "next/router"
+import { config } from '../shared/constants';
 
 export default function Home({data}) {
 
+  console.log('config: ',config);
 
   useEffect(() =>{
-    const token = localStorage.getItem('token');
-    console.log('token', token)
-    if(token) {
-       Router.push("/home");
-    } else {
-      Router.push("/login");
-    }
+    // const token = localStorage.getItem('token');
+    // console.log('token', token)
+    // if(token) {
+    //    Router.push("/home");
+    // } else {
+    //   Router.push("/login");
+    // }
    
   },[])
 
