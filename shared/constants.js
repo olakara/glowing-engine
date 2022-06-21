@@ -1,10 +1,15 @@
+import { getURL } from "next/dist/shared/lib/utils";
+
 const prod = {
-   API_URL: 'production url' 
-   
+   BASE_URL: 'production url',
+   USER_INFO: 'users/me',
+   SIGN_IN: 'Users/sign-in'
 };
 
 const dev = {
-   API_URL: 'http://localhost:3000/'
+   BASE_URL: 'http://localhost:5000/',
+   USER_INFO: 'users/me',
+   SIGN_IN: 'Users/sign-in'
 };
 
 export const config = process.env.NODE_ENV === 'development' ? dev : prod;
