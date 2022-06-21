@@ -9,7 +9,7 @@ class UserRepository {
         this.userPm = new Observable({});
     }
 
-    getUser = async (callback) => {
+    getCurrentUser = async (callback) => {
         this.userPm.subscribe(callback);
         const userDto = await httpGateway.get(config.BASE_URL + config.USER_INFO);
         this.userPm.value = userDto;

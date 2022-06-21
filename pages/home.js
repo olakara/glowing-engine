@@ -4,18 +4,23 @@ import Link from 'next/link'
 import Router from 'next/router'
 import UserPresenter from '../components/user/user.presenter'
 import CounterWidget from '../components/dashboard/counter-widget'
-import UserList from '../components/user/user-list/user-list.component'
+//import UserList from '../components/user/user-list/user-list.component'
+import AgentListComponent from '../components/agent/agent-list/agent-list.component'
+import LookupsPresenter from '../shared/lookups/lookups.presenter'
 
 export default function Home() {
   
   const [isLoggedIn, setLoginStatus] = useState(false);
   const [stateViewModel, copyViewModelToStateViewModel] = useState(null);
+  const [generalLookups, copyGeneralLookupsToStateViewModel] = useState(null);
+  const [userLookups, copyUserLookupsToStateViewModel] = useState(null);
   const vm = {
     title: 'Counter',
     countValue: '24,600',
   };
 
   let userPresenter = new UserPresenter();
+  let lookupsPresenter = new LookupsPresenter();
   
    let handleGetUser = async () => {
     await userPresenter.getUser(viewModel => {
@@ -24,6 +29,19 @@ export default function Home() {
    }
 
   useEffect(() =>{
+
+     async function load() {
+            await lookupsPresenter.loadGeneralLookups(generatedViewModel => {
+                copyGeneralLookupsToStateViewModel(generatedViewModel);
+            })
+
+            await lookupsPresenter.loadUserLookups(generatedViewModel => {
+                copyUserLookupsToStateViewModel(generatedViewModel);
+            })
+
+        }
+    load();
+
     const token = localStorage.getItem('token')
     if(token) {
        setLoginStatus(true)
@@ -73,7 +91,16 @@ export default function Home() {
       User details: 
       { JSON.stringify(stateViewModel,null,2) }
 
-       <UserList></UserList>
+       {/* <UserList></UserList> */}
+       <AgentListComponent></AgentListComponent>
+       <hr/>
+       <h4>General Lookups</h4>
+       {JSON.stringify(generalLookups, null, 2)}
+       <hr/>
+       <h4>User Lookups</h4>
+       {JSON.stringify(userLookups, null, 2)}
+
+
     </>
   )
 }
