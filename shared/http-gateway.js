@@ -1,6 +1,7 @@
 class HttpGateway {
   get = async url => {
 
+    console.log('GATEWAY GET METHOD!')
     const requestOptions = {
         method: "GET",
         headers: this.authHeader(url)
@@ -11,10 +12,13 @@ class HttpGateway {
   };
 
   post = async (url, requestDto) => {
+
+    let headers = this.authHeader(url);
+
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify(requestDto),
-      headers: {
+      headers: { ...headers,
         "Content-Type": "application/json"
       }
     });

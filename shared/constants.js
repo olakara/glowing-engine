@@ -1,7 +1,7 @@
 import { getURL } from "next/dist/shared/lib/utils";
 
 const prod = {
-   BASE_URL: 'production url',
+   BASE_URL: 'http://production/',
    USER_INFO: 'users/me',
    SIGN_IN: 'Users/sign-in'
 };

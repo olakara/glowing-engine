@@ -3,17 +3,18 @@ import httpGateway from "../../shared/http-gateway";
 import Observable from "../../shared/observable";
 
 class UserRepository {
-    userPm = null;
+    
+    userProgrammersModel = null;
     
     constructor() {
-        this.userPm = new Observable({});
+        this.userProgrammersModel = new Observable({});
     }
 
     getCurrentUser = async (callback) => {
-        this.userPm.subscribe(callback);
+        this.userProgrammersModel.subscribe(callback);
         const userDto = await httpGateway.get(config.BASE_URL + config.USER_INFO);
-        this.userPm.value = userDto;
-        this.userPm.notify();
+        this.userProgrammersModel.value = userDto;
+        this.userProgrammersModel.notify();
     }
 
     signIn = async (signInDto) => {

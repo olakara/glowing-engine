@@ -21,7 +21,6 @@ export default function AgentListComponent(props) {
        {vm.map((agentVm,i) => {
         return <div key={i}>{agentVm.name}</div>
        })}
-     </div>
-    
+     </div>    
   )
 }

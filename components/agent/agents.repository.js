@@ -33,16 +33,12 @@ class AgentsRepository {
         this.programmersModel.notify();
     }
 
-    
-
     loadData = async () => {
-        const agentsDto = await httpGateway.get(config.BASE_URL + "users/");
+        const agentsDto = await httpGateway.get(config.BASE_URL + "users/role");
         this.programmersModel.value = agentsDto.map(agentDto => {
             return agentDto;
         })
     }
-
-
 }
 
 const agentsRepository = new AgentsRepository();
