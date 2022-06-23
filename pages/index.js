@@ -1,21 +1,19 @@
 import {  useEffect } from 'react';
 import Head from 'next/head'
-import Link from 'next/link'
 import Router from "next/router"
-import { config } from '../shared/constants';
 
-export default function Home({data}) {
 
-  console.log('config: ',config);
+export default function IndexPage() {
+
+  
 
   useEffect(() =>{
-    // const token = localStorage.getItem('token');
-    // console.log('token', token)
-    // if(token) {
-    //    Router.push("/home");
-    // } else {
-    //   Router.push("/login");
-    // }
+    const token = localStorage.getItem('token');    
+    if(token) {
+       Router.push("/home");
+    } else {
+      Router.push("/login");
+    }
    
   },[])
 
@@ -24,16 +22,9 @@ export default function Home({data}) {
         <title >Index Page</title>
       </Head>
     
-      <nav className="py-4 px-6 text-sm font-medium">
-        <ul className="flex space-x-3">
-          <li>
-            <Link href="/login" className="block px-3 py-2 rounded-md bg-sky-500 text-white">Login</Link>
-            <Link href="/logout" className="block px-3 py-2 rounded-md bg-sky-500 text-white">Logout</Link>
-          </li>
-        </ul>
-       </nav>
-
-    
+      <div >
+        Loading...
+      </div>    
     </>
   )
 }

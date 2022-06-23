@@ -29,7 +29,7 @@ class AgentsRepository {
             cascadeId: agentPm.cascadeId
         };
 
-        await this.httpGateway.post(config.BASE_URL + 'users/', agentDto);
+        await httpGateway.post(config.BASE_URL + 'users/', agentDto);
         await this.loadData();
         this.programmersModel.notify();
     }

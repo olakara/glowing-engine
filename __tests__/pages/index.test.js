@@ -1,10 +1,14 @@
-import Home from "../../pages/index";
+import IndexPage from "../../pages/index";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
 
-test("home page show have a page header", () => {
+// test("home page show have a page header", () => {
     
-    render(<Home />);
-    expect(screen.getByTestId('pageheader')).toBeInTheDocument();
+    //render(<IndexPage />);
+    //expect(screen.).toBeInTheDocument();
+// })
+
+test('sample', ()=> {
+    
 })
