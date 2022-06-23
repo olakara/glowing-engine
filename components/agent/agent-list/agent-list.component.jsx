@@ -19,7 +19,7 @@ export default function AgentListComponent(props) {
      <div>
         Agent List
        {vm.map((agentVm,i) => {
-        return <div key={i}>{agentVm.name}</div>
+        return <div key={i}>{JSON.stringify(agentVm, null, 2)}</div>
        })}
      </div>    
   )

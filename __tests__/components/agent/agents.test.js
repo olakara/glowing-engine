@@ -17,7 +17,7 @@ beforeEach( async()=> {
             id: '9e0092d6-f316-11ec-b939-0242ac120002',
             isActive: true,
             mobileNumber: '0502837490',
-            name: 'Admin',
+            fullName: 'Admin',
         }];
 
  postStub = {
@@ -45,7 +45,7 @@ it('should hit backend API and load 1 view model agents when loaded from backend
     
     expect(httpGateway.get).toHaveBeenCalledWith("http://production/users/role");
     expect(viewModel.length).toBe(1);
-    expect(viewModel[0].name).toBe('Admin');
+    expect(viewModel[0].fullName).toBe('Admin');
     expect(viewModel[0].email).toBe('admin@admin.com');
 
 })

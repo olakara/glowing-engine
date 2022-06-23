@@ -10,7 +10,7 @@ export default class AgentsPresenter {
                     id: agentPm.id,
                     isActive: agentPm.isActive,
                     mobileNumber: agentPm.mobileNumber,
-                    name: agentPm.name,
+                    fullName: agentPm.fullName,
                 }
             });
             callback(agentsVm);

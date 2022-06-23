@@ -94,11 +94,7 @@ export default function Home() {
        {/* <UserList></UserList> */}
        <AgentListComponent></AgentListComponent>
        <hr/>
-       <h4>General Lookups</h4>
-       {JSON.stringify(generalLookups, null, 2)}
-       <hr/>
-       <h4>User Lookups</h4>
-       {JSON.stringify(userLookups, null, 2)}
+       
 
 
     </>
