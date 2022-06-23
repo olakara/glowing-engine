@@ -19,11 +19,11 @@ it('should hit backend API and load 3 view model agents when loaded from backend
 
     let viewModel = null;
     let agentsPresenter = new AgentsPresenter();
-    await agentsPresenter.load((generatedViewModel) => {        
+    await agentsPresenter.load((generatedViewModel) => {
         viewModel = generatedViewModel;
     })
-
+    
     expect(httpGateway.get).toHaveBeenCalledWith("http://production/users/role");
-    //expect(viewModel.length).toBe(3);
-
+    expect(viewModel.length).toBe(3);
+    expect(viewModel[0].name).toBe('Abdel')
 })
