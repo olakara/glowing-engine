@@ -1,7 +1,6 @@
 class HttpGateway {
   get = async url => {
-
-    console.log('GATEWAY GET METHOD!')
+   
     const requestOptions = {
         method: "GET",
         headers: this.authHeader(url)
