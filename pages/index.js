@@ -1,20 +1,21 @@
 import {  useEffect } from 'react';
 import Head from 'next/head'
 import Router from "next/router"
-
+import UserPresenter from '../components/user/user.presenter'
 
 export default function IndexPage() {
 
-  
+  let userPresenter = new UserPresenter();  
 
   useEffect(() =>{
-    const token = localStorage.getItem('token');    
-    if(token) {
-       Router.push("/home");
-    } else {
-      Router.push("/login");
+    function load() {      
+      if(userPresenter.isLoggedIn()) {
+        Router.push("/home");
+      } else {
+        Router.push("/login");
+      }
     }
-   
+   load();
   },[])
 
  return (<>
@@ -24,7 +25,7 @@ export default function IndexPage() {
     
       <div >
         Loading...
-      </div>    
+      </div>
     </>
   )
 }

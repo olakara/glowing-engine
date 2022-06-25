@@ -10,8 +10,8 @@ export default class UserPresenter {
        return userRepository.signOut();
     }
 
-    isLoggedIn =  async () => {
-        return await userRepository.isLoggedIn();
+    isLoggedIn =  () => {
+        return userRepository.isLoggedIn();
     }
 
     getCurrentUser = async (callback) => {

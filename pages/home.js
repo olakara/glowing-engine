@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Router from 'next/router'
 import UserPresenter from '../components/user/user.presenter'
 import CounterWidget from '../components/dashboard/counter-widget'
-//import UserList from '../components/user/user-list/user-list.component'
 import AgentListComponent from '../components/agent/agent-list/agent-list.component'
 import LookupsPresenter from '../shared/lookups/lookups.presenter'
 
@@ -30,6 +29,13 @@ export default function Home() {
 
   useEffect(() =>{
 
+      
+      if(userPresenter.isLoggedIn()) {
+        setLoginStatus(true)
+      } else {
+        Router.push("/login");
+      }
+
      async function load() {
             await lookupsPresenter.loadGeneralLookups(generatedViewModel => {
                 copyGeneralLookupsToStateViewModel(generatedViewModel);
@@ -40,14 +46,7 @@ export default function Home() {
             })
 
         }
-    load();
-
-    const token = localStorage.getItem('token')
-    if(token) {
-       setLoginStatus(true)
-    } else {
-       Router.push("/login")
-    }
+    load();    
   },[])
 
  return (<>
@@ -87,9 +86,20 @@ export default function Home() {
        </dl> */}
 
 
-       <div className="py-10">
-      <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">       
-          <h1 className="text-3xl font-bold leading-tight text-gray-900">Users</h1>       
+       <div className="py-10">       
+      <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">    
+      <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">    
+          <div className="ml-4 mt-2">
+          <h1 className="text-3xl font-bold leading-tight text-gray-900">Users</h1>
+          </div>         
+          <div class="ml-4 mt-2 flex-shrink-0">
+            <Link href="/create-agent">
+                <a className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                 Add User
+                </a>
+          </Link>
+          </div>
+      </div>
       </header>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <AgentListComponent></AgentListComponent>

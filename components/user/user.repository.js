@@ -32,7 +32,7 @@ class UserRepository {
         localStorage.clear();
     }
 
-    isLoggedIn = async () => {
+    isLoggedIn = () => {
         const token = localStorage.getItem("token");
         if(token) {
             return true;
