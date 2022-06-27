@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import Head from 'next/head'
 import Router from "next/router"
 import UserPresenter from "../components/user/user.presenter"
 
@@ -14,15 +15,16 @@ export default function Login(){
         e.preventDefault()
          let result = await userPresenter.signIn(email,password)
         if(result) {
-                console.log('Login success, redirect to dashboard ..');
-                Router.push("/home")
+          Router.push("/home")
         } else {
-                setLoginStatus(true);
-                console.log('show error')
+          setLoginStatus(true);
         }
     }
 
     return(<>
+          <Head>
+              <title>Login</title>
+          </Head>
     <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div className="mx-auto w-full max-w-sm lg:w-96">
         <div>

@@ -18,7 +18,6 @@ export default class UserPresenter {
         const isLoggedIn = await userRepository.isLoggedIn();
         if(isLoggedIn) {
             await userRepository.getCurrentUser(userPm => {
-                console.log('userPm in UserPresenter...', userPm);
                 const userVm = { ...userPm, isLoggedIn };
                 callback(userVm);
             });
