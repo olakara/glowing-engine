@@ -17,9 +17,19 @@ export default class AgentsPresenter {
         });
     }
 
-    createAgent = async (agent) => {
-       let result = await agentsRepository.createAgent(agent);
-       return result;
+    createAgent = async (agentDto) => {
+
+       let agentPm = {
+        fullName: agentDto.fullName,
+        email: agentDto.email,
+        mobileNumber: agentDto.mobile,
+        alternativeContactNumber: agentDto.alternateMobile,
+        designation: agentDto.designation,
+        role: agentDto.role,
+        cascadeId: agentDto.location
+      };
+      let result = await agentsRepository.createAgent(agentPm);
+      return result;
     }
 
     

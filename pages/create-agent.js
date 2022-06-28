@@ -36,29 +36,26 @@ export default function CreateAgentPage() {
 
     const handleSubmit = async(e) => {
       e.preventDefault()
+
       let agentDto = {
         fullName,
         email,
-        mobileNumber: mobile,
-        alternativeContactNumber: alternateMobile,
+        mobile,
+        alternateMobile,
         designation,
         role,
-        cascadeId: location
+        location
       };
-
       
       let result = await agentPresenter.createAgent(agentDto);
+
       if(!result.success) {
         setErrorMessage(result.data.reason);
       } else {
         Router.push('/home');
       }
     }
-
-    const isFormValid = () => {
-      return false;
-    }
-
+    
     return (
         <>
           <Head>
