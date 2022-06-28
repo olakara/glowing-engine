@@ -19,6 +19,7 @@ export default function CreateAgentPage() {
     const [location, setLocation] = useState('');
     const [role, setRole] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [locationLabel, setLocationLabel] = useState('');
     
 
     let agentPresenter = new AgentsPresenter();    
@@ -27,12 +28,27 @@ export default function CreateAgentPage() {
     useEffect(() => {
         async function load() {
           await lookupsPresenter.loadUserLookups(generatedViewModel => {
-              copyUserLookupsToStateViewModel(generatedViewModel);
-              setRole('state-admin')
+              copyUserLookupsToStateViewModel(generatedViewModel)
+              const userRole = getDefaultRoleForUser(generatedViewModel.applicableUserRole ?? []);
+              setRole(userRole)
+              setLocationLabel(getLocationLabel(userRole))
           })
         }
         load();
     },[])
+
+    function getDefaultRoleForUser(applicableUserRoles) {
+      if(applicableUserRoles && applicableUserRoles.includes('state-admin')) {
+        return 'state-admin';
+      }
+
+      return applicableUserRoles.length > 0 ? applicableUserRoles[0] : "";
+    }
+
+    function getLocationLabel(roleName) {
+      const roleSplitArray = roleName.split("-");
+      return roleSplitArray[0];
+    }
 
     const handleSubmit = async(e) => {
       e.preventDefault()
@@ -140,7 +156,7 @@ export default function CreateAgentPage() {
                         </div>
 
                         <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                          <label htmlFor="location" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> State
+                          <label htmlFor="location" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 capitalize"> {locationLabel}
                           </label>
                           <div className="mt-1 sm:mt-0 sm:col-span-2">
                             <select id="location" name="location" autoComplete="location"
