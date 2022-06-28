@@ -20,8 +20,8 @@ class UserRepository {
     signIn = async (signInDto) => {
 
         const accessDto = await httpGateway.post(config.BASE_URL + config.SIGN_IN, signInDto);
-        if(accessDto.accessToken) {
-            localStorage.setItem("token", accessDto.accessToken);
+        if(accessDto.data.accessToken) {
+            localStorage.setItem("token", accessDto.data.accessToken);
             return true;
         } else {
             return false;

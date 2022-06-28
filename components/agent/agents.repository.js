@@ -17,7 +17,7 @@ class AgentsRepository {
         this.programmersModel.notify();
     }
 
-    createAgent = async agentPm => {
+    createAgent = async (agentPm) => {
         
         const agentDto = {
             fullName : agentPm.fullName,
@@ -29,9 +29,10 @@ class AgentsRepository {
             cascadeId: agentPm.cascadeId
         };
 
-        await httpGateway.post(config.BASE_URL + 'users/', agentDto);
+        let result = await httpGateway.post(config.BASE_URL + 'users/', agentDto);
         await this.loadData();
         this.programmersModel.notify();
+        return result;
     }
 
     loadData = async () => {

@@ -5,6 +5,7 @@ import UserPresenter from '../components/user/user.presenter'
 import LookupsPresenter from  '../shared/lookups/lookups.presenter'
 import HeaderComponent from '../components/common/header.component'
 import AgentsPresenter from '../components/agent/agents.presenter'
+import FormErrorComponent from "../components/common/form-error.component"
 
 export default function CreateAgentPage() {
 
@@ -16,6 +17,8 @@ export default function CreateAgentPage() {
     const [alternateMobile, setAlternateMobile] = useState('');
     const [designation, setDesignation] = useState('');
     const [location, setLocation] = useState('');
+    const [role, setRole] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     
 
     let agentPresenter = new AgentsPresenter();    
@@ -24,8 +27,8 @@ export default function CreateAgentPage() {
     useEffect(() => {
         async function load() {
           await lookupsPresenter.loadUserLookups(generatedViewModel => {
-              console.log('user lookups', generatedViewModel)
               copyUserLookupsToStateViewModel(generatedViewModel);
+              setRole('state-admin')
           })
         }
         load();
@@ -39,10 +42,17 @@ export default function CreateAgentPage() {
         mobileNumber: mobile,
         alternativeContactNumber: alternateMobile,
         designation,
+        role,
         cascadeId: location
+      };
+
+      
+      let result = await agentPresenter.createAgent(agentDto);
+      if(!result.success) {
+        setErrorMessage(result.data.reason);
+      } else {
+        Router.push('/home');
       }
-      console.log( 'Agent: ', agentDto);
-      await agentPresenter.createAgent(agentDto);
     }
 
     const isFormValid = () => {
@@ -64,6 +74,7 @@ export default function CreateAgentPage() {
                 </div>
               </header>
                <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {errorMessage && ( <FormErrorComponent vm={errorMessage}/>)}
                   <form className="space-y-8 divide-y divide-gray-200" onSubmit={handleSubmit}>
                     <div className="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
                       <div className="space-y-6 sm:space-y-5">
@@ -117,8 +128,23 @@ export default function CreateAgentPage() {
                           </div>
                         </div>
 
+                         <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                          <label htmlFor="role" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Role
+                          </label>
+                          <div className="mt-1 sm:mt-0 sm:col-span-2">
+                            <select id="role" name="role" autoComplete="role"
+                              value={role} onChange={ e=> setRole(e.target.value)}
+                              className="max-w-lg block focus:ring-green-500 focus:border-green-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                                <option value="">Select</option>
+                              { userLookups && userLookups.applicableUserRole && userLookups.applicableUserRole.map( role => {
+                                return (<option key={role} value={role}>{role}</option>)
+                              })}
+                            </select>
+                          </div>
+                        </div>
+
                         <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                          <label htmlFor="location" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Location
+                          <label htmlFor="location" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> State
                           </label>
                           <div className="mt-1 sm:mt-0 sm:col-span-2">
                             <select id="location" name="location" autoComplete="location"
@@ -140,7 +166,7 @@ export default function CreateAgentPage() {
                             Router.push('/home')
                           }}
                           className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Cancel</button>
-                        <button type="submit" 
+                        <button type="submit" disabled={!fullName || !email || !mobile || !location || !role} 
                           className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white disabled:bg-gray-500 bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Save</button>
                       </div>
                     </div>

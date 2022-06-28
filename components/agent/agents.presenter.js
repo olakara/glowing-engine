@@ -18,6 +18,9 @@ export default class AgentsPresenter {
     }
 
     createAgent = async (agent) => {
-        await agentsRepository.createAgent(agent)
+       let result = await agentsRepository.createAgent(agent);
+       return result;
     }
+
+    
 }
