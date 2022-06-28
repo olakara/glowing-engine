@@ -47,13 +47,12 @@ export default function CreateAgentPage() {
         location
       };
       
-      let result = await agentPresenter.createAgent(agentDto);
-
-      if(!result.success) {
-        setErrorMessage(result.data.reason);
-      } else {
+      await agentPresenter.createAgent(agentDto, success => {
         Router.push('/home');
-      }
+      }, error => {
+        setErrorMessage(error.data.reason);
+      });
+      
     }
     
     return (

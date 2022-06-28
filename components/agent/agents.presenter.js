@@ -17,7 +17,7 @@ export default class AgentsPresenter {
         });
     }
 
-    createAgent = async (agentDto) => {
+    createAgent = async (agentDto, successCallback, errorCallback) => {
 
        let agentPm = {
         fullName: agentDto.fullName,
@@ -28,8 +28,7 @@ export default class AgentsPresenter {
         role: agentDto.role,
         cascadeId: agentDto.location
       };
-      let result = await agentsRepository.createAgent(agentPm);
-      return result;
+      await agentsRepository.createAgent(agentPm, successCallback, errorCallback);
     }
 
     

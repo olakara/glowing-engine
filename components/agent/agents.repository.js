@@ -17,7 +17,7 @@ class AgentsRepository {
         this.programmersModel.notify();
     }
 
-    createAgent = async (agentPm) => {
+    createAgent = async (agentPm, successCallback, errorCallback) => {
         
         const agentDto = {
             fullName : agentPm.fullName,
@@ -30,9 +30,12 @@ class AgentsRepository {
         };
 
         let result = await httpGateway.post(config.BASE_URL + 'users/', agentDto);
-        await this.loadData();
-        this.programmersModel.notify();
-        return result;
+
+        if(result.success) {
+            successCallback();
+        } else {
+            errorCallback(result);
+        }
     }
 
     loadData = async () => {
