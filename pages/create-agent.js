@@ -20,6 +20,7 @@ export default function CreateAgentPage() {
     const [role, setRole] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [locationLabel, setLocationLabel] = useState('');
+    const [isLocationNeeded, setIsLocationNeeded] = useState(true);
     
 
     let agentPresenter = new AgentsPresenter();    
@@ -48,6 +49,14 @@ export default function CreateAgentPage() {
     function getLocationLabel(roleName) {
       const roleSplitArray = roleName.split("-");
       return roleSplitArray[0];
+    }
+
+    function setLocationNeeded(newRole) {
+      if(newRole === 'state-admin' || newRole === 'district-admin' || newRole === 'mandalam-admin') {
+        setIsLocationNeeded(true)
+      } else {
+        setIsLocationNeeded(false)
+      }
     }
 
     const handleSubmit = async(e) => {
@@ -145,7 +154,10 @@ export default function CreateAgentPage() {
                           </label>
                           <div className="mt-1 sm:mt-0 sm:col-span-2">
                             <select id="role" name="role" autoComplete="role"
-                              value={role} onChange={ e=> setRole(e.target.value)}
+                              value={role} onChange={ e=> { 
+                                setRole(e.target.value) 
+                                setLocationNeeded(e.target.value);
+                              }}
                               className="max-w-lg block focus:ring-green-500 focus:border-green-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
                                 <option value="">Select</option>
                               { userLookups && userLookups.applicableUserRole && userLookups.applicableUserRole.map( role => {
@@ -155,6 +167,7 @@ export default function CreateAgentPage() {
                           </div>
                         </div>
 
+                        {isLocationNeeded && (
                         <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                           <label htmlFor="location" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 capitalize"> {locationLabel}
                           </label>
@@ -169,6 +182,7 @@ export default function CreateAgentPage() {
                             </select>
                           </div>
                         </div>
+                      )}    
                       </div>
                     </div>
                     <div className="pt-5">
@@ -178,7 +192,7 @@ export default function CreateAgentPage() {
                             Router.push('/home')
                           }}
                           className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Cancel</button>
-                        <button type="submit" disabled={!fullName || !email || !mobile || !location || !role} 
+                        <button type="submit" disabled={!fullName || !email || !mobile || !location || (isLocationNeeded && !role)} 
                           className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white disabled:bg-gray-500 bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Save</button>
                       </div>
                     </div>
