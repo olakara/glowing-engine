@@ -15,7 +15,7 @@ class AgentsRepository {
         this.programmersModel.subscribe(callback);
         await this.loadData();
         this.programmersModel.notify();
-    }
+    };
 
     createAgent = async (agentPm, successCallback, errorCallback) => {
         
@@ -36,14 +36,32 @@ class AgentsRepository {
         } else {
             errorCallback(result);
         }
-    }
+    };
+
+    activateAgent = async (agentId) => {
+        let result = await httpGateway.put(config.BASE_URL + 'users/activate/' + agentId);
+         if(result.success) {
+            await this.loadData();
+            this.programmersModel.notify();
+        }
+        return result;
+    };
+
+    deactivateAgent = async(agentId) => {
+        let result = await httpGateway.put(config.BASE_URL + 'users/deactivate/' + agentId);
+        if(result.success) {
+            await this.loadData();
+            this.programmersModel.notify();
+        }
+        return result;
+    };
 
     loadData = async () => {
         const agentsDto = await httpGateway.get(config.BASE_URL + "users/role");
         this.programmersModel.value = agentsDto.map(agentDto => {
             return agentDto;
         })
-    }
+    };
 }
 
 const agentsRepository = new AgentsRepository();

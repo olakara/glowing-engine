@@ -1,20 +1,44 @@
 import { useState, useEffect } from 'react';
-import AgentsPresenter from '../agents.presenter'
+import AgentsPresenter from '../agents.presenter';
+import LookupsPresenter from  '../../../shared/lookups/lookups.presenter';
 import AgentRowComponent from './agent-row.component';
 
 export default function AgentListComponent(props) {
 
-    const agentsPresenter = new AgentsPresenter();
+    
     const [vm, copyViewModelToStateModel] = useState([]);
-
+    const [locationLabel, setLocationLabel] = useState('');
+    
+    const agentsPresenter = new AgentsPresenter();
+    const lookupsPresenter = new LookupsPresenter();
+  
     useEffect(()=>{
         async function load() {
+
+            await lookupsPresenter.loadUserLookups(generatedViewModel => {
+              const userRole = getDefaultRoleForUser(generatedViewModel.applicableUserRole ?? []);
+              setLocationLabel(getLocationLabel(userRole))
+             })
+
             await agentsPresenter.load(generatedViewModel => {
                 copyViewModelToStateModel(generatedViewModel);
             })
         }
         load();
     },[])
+
+     function getDefaultRoleForUser(applicableUserRoles) {
+      if(applicableUserRoles && applicableUserRoles.includes('state-admin')) {
+        return 'state-admin';
+      }
+
+      return applicableUserRoles.length > 0 ? applicableUserRoles[0] : "";
+    }
+
+    function getLocationLabel(roleName) {
+      const roleSplitArray = roleName.split("-");
+      return roleSplitArray[0];
+    }
 
  return (
     <>
@@ -28,7 +52,7 @@ export default function AgentListComponent(props) {
                     className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Email
                     </th>
                     <th scope="col"
-                    className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">State
+                    className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell capitalize">{locationLabel}
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
                 </tr>

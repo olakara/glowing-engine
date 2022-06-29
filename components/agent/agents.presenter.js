@@ -6,6 +6,7 @@ export default class AgentsPresenter {
             const agentsVm = agentsPm.map(agentPm => {                
                 return {
                     cascadeId: agentPm.cascadeId,
+                    cascadeName: agentPm.cascadeName,
                     email: agentPm.email,
                     id: agentPm.id,
                     isActive: agentPm.isActive,
@@ -29,6 +30,14 @@ export default class AgentsPresenter {
         cascadeId: agentDto.location
       };
       await agentsRepository.createAgent(agentPm, successCallback, errorCallback);
+    }
+
+    activateAgent = async (agentId) => {
+        await agentsRepository.activateAgent(agentId)
+    }
+
+    deactivateAgent = async (agentId) => {
+        await agentsRepository.deactivateAgent(agentId)
     }
 
     

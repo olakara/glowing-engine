@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import Head from 'next/head'
 import Router from 'next/router'
-import UserPresenter from '../components/user/user.presenter'
 import LookupsPresenter from  '../shared/lookups/lookups.presenter'
 import HeaderComponent from '../components/common/header.component'
 import AgentsPresenter from '../components/agent/agents.presenter'
@@ -23,8 +22,8 @@ export default function CreateAgentPage() {
     const [isLocationNeeded, setIsLocationNeeded] = useState(true);
     
 
-    let agentPresenter = new AgentsPresenter();    
-    let lookupsPresenter = new LookupsPresenter();
+    const agentPresenter = new AgentsPresenter();    
+    const lookupsPresenter = new LookupsPresenter();
     
     useEffect(() => {
         async function load() {

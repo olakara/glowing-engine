@@ -1,13 +1,21 @@
 import classNames from 'classnames';
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
+import AgentsPresenter from '../agents.presenter'
 
 export default function AgentRowComponent(props) {
 
-    const [enabled, setEnabled] = useState(false);
+   
+    const [enabled, setEnabled] = useState(props.vm.isActive);
+    const agentsPresenter = new AgentsPresenter();
 
-    function handleToggle() {
-        setEnabled(props.vm.isActive);        
+    const handleToggle = async () => {
+        const isEnable = !enabled;
+        setEnabled(isEnable);
+        if(isEnable)
+            await agentsPresenter.activateAgent(props.vm.id);
+        else
+            await agentsPresenter.deactivateAgent(props.vm.id);
     }
 
     let rowStyle = classNames({ 
@@ -26,7 +34,7 @@ export default function AgentRowComponent(props) {
                     className={`${enabled ? 'bg-green-700' : 'bg-red-700'}
                     relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
                 >
-                    <span className="sr-only">Use setting</span>
+                    <span className="sr-only">Enable Agent</span>
                     <span
                     aria-hidden="true"
                     className={`${enabled ? 'translate-x-5' : 'translate-x-0'}
